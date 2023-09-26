@@ -1,0 +1,10 @@
+parent(hellen,liz).
+parent(hellen,ann).
+parent(paul,ann).
+parent(pat,ann).
+parent(kim,jim).
+siblings(ann,liz).
+siblings(pat,kim).
+brother(pat,kim).
+siblingof(X,Y):-parent(Z,X),parent(Z,Y).
+uncleof(X,Y):-parent(Z,X),siblings(X,Y).

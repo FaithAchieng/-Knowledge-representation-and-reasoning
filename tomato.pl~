@@ -1,0 +1,112 @@
+go:-
+    hypothesis(Disease),
+    write('Your tomato plant is having'),
+    write(Disease),
+    undo.
+hypothesis(bacterial_wilt) :- bacterial_wilt, !.
+hypothesis(early_blight) :- early_blight, !.
+hypothesis(late_blight) :- late_blight, !.
+hypothesis(septoria_leaf_spot) :- septoria_leaf_spot, !.
+hypothesis(leaf_mold) :- leaf_mold, !.
+hypothesis(bacterial_spot) :- bacterial_spot, !.
+hypothesis(tomato_pith_necrosis):- tomato_pith_necrosis, !.
+hypothesis(buckeye_rot):- buckeye_rot, !.
+hypothesis(anthracnose):- anthracnose, !.
+hypothesis(fusarium_wilt):- fusarium_wilt, !.
+bacterial_wilt:-
+    verify(rapid_wilting_plant),
+    verify(brown_stem),
+    write('Prevention'),
+    nl,
+    write('Rotation with non susceptible plants eg beans'),
+    nl.
+early_blight:-
+    verify(small_brown_lesions),
+    verify(concentric_rings_on_fruit),
+    write('Prevention'),
+    nl,
+    write('Use resistant or tolerant tomato cultivars'),
+    nl.
+late_blight:-
+    verify(dark_water_soaked_spots_on_leaves),
+    verify(white_mold_leaves),
+    write('Prevention'),
+    nl,
+    write('Keep foliage dry. Locate your garden where it will receive morning sun.'),
+    nl.
+septoria_leaf_spot:-
+    verify(circular_dark_spots),
+    verify(tiny_specks),
+    write('Prevention'),
+    nl,
+    write('Most currently grown tomato cultivars are susceptible to Septoria leaf spot.'),
+    nl.
+leaf_mold:-
+    verify(pale_green_spots),
+    verify(gray_spores),
+    write('Prevention'),
+    nl,
+    write('Crop residue should be removed from the field'),
+    nl.
+bacterial_spot:-
+    verify(sunscalded_fruit),
+    verify(scabby_spots_on_leaves),
+    write('Prevention'),
+    nl,
+    write('Only use certified disease-free seeds and plants'),
+    nl.
+
+tomato_pith_necrosis:-
+    verify(blackened_area_on_stems),
+    verify(stem_shrink),
+    write('Prevention'),
+    nl,
+    write('Do not use over-head irrigation to water the garden, but water at the base of the plants by drip irrigation, soaker hoses, or by hand with a garden hose. '),
+    nl.
+
+buckeye_rot:-
+    verify(entire_fruit_rots),
+    verify(sunken_margins),
+    write('Prevention'),
+    nl,
+    write('Avoid compacted, poorly drained soils (grow plants in raised beds). Rotation, sanitation, staking, and mulching will help reduce the disease'),
+    nl.
+anthracnose:-
+    verify(small_circular_indented_areas_on_fruit),
+    verify(salmon_colored_spores),
+    write('Prevention'),
+    nl,
+    write('Purchase disease-free seed, as the fungus that causes anthracnose of tomato may be within the seed.'),
+    nl.
+
+fusarium_wilt:-
+    verify(yellow_leaves),
+    verify(dark_brown_stem),
+   write('Prevention'),
+   nl,
+   write('For control, grow plants in pathogen-free soil, use disease-free transplants, and grow only cultivars with at least resistance to races 1 and 2 of Fusarium wilt'),
+   nl.
+ask(Question) :-
+write('Does the plant have the following sysmptoms:'),
+write(Question),
+write('? '),
+read(Response),
+nl,
+( (Response == yes ; Response == y)
+->
+assert(yes(Question)) ;
+assert(no(Question)), fail).
+
+:- dynamic yes/1,no/1.
+verify(S) :-
+(yes(S)
+->
+true ;
+(no(S)
+->
+fail ;
+ask(S))).
+/* undo all yes/no assertions*/
+undo :- retract(yes(_)),fail.
+undo :- retract(no(_)),fail.
+undo.
